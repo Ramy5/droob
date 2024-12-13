@@ -158,7 +158,7 @@ const NavBar = () => {
               setSelectedOption("");
             }}
           >
-            انضم كمدرب
+            {user ? " انضم كمدرب" : "تسجيل الخروج"}
           </button>
         </Link>
 

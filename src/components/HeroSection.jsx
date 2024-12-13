@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { NavbarContext } from "../contexts/NavBarContext";
 import logoWhite from "../assets/logo-white.png";
@@ -28,13 +28,15 @@ const HeroSection = () => {
   const nav = useNavigate();
   const { data, isLoading } = useFetch("/landing/home");
   const [user, setUser] = useState(null);
+  const location = useLocation();
+  console.log("🚀 ~ HeroSection ~ location:", location);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
     }
-  }, []);
+  }, [location.pathname]);
 
   const headText = data?.head ? data?.head?.split("&nbsp;") : ["", ""];
 
@@ -167,15 +169,20 @@ const HeroSection = () => {
         </div>
 
         <ul className="flex-row-reverse items-center hidden gap-5 text-white lg:flex">
-          <Link to="register">
+          <Link to={user ? "/" : "register"}>
             <button
               onClick={() => {
-                setShowDropdown(false);
-                setSelectedOption("");
+                if (user) {
+                  localStorage.removeItem("user");
+                  setUser("");
+                } else {
+                  setShowDropdown(false);
+                  setSelectedOption("");
+                }
               }}
               className="items-center"
             >
-              انضم كمدرب
+              {!user ? " انضم كمدرب" : "تسجيل الخروج"}
             </button>
           </Link>
 
@@ -325,18 +332,25 @@ const HeroSection = () => {
           </ul>
 
           <ul className="flex flex-col items-center justify-center gap-5 py-10 my-5 md:hidden">
-            <Link to="register">
+            <Link to={user ? "/" : "register"}>
               <button
                 onClick={() => {
-                  setShow(false);
-                  setShowDropdown(false);
-                  setSelectedOption("");
+                  if (user) {
+                    localStorage.removeItem("user");
+                    setUser("");
+                  } else {
+                    setShow(false);
+
+                    setShowDropdown(false);
+                    setSelectedOption("");
+                  }
                 }}
                 className="items-center"
               >
-                انضم كشريك
+                {!user ? " انضم كمدرب" : "تسجيل الخروج"}
               </button>
             </Link>
+
             {user ? (
               <p className="flex items-center gap-1">
                 <span>{user?.name}</span>

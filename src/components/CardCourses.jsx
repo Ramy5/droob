@@ -6,7 +6,10 @@ const CardCourses = ({ name, desc, img, price, date, rate, id }) => {
   console.log("🚀 ~ CardCourses ~ rate:", rate);
   const nav = useNavigate();
   return (
-    <div dir="rtl" className="bg-[#ffffff] w-[98%] my-8 shadow-md rounded-xl">
+    <div
+      dir="rtl"
+      className="flex flex-col justify-between bg-[#ffffff] w-[98%] my-8 shadow-md rounded-xl min-h-[580px]"
+    >
       <img
         src={img}
         alt=""

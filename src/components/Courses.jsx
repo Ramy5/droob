@@ -44,11 +44,11 @@ const Courses = () => {
   // Slider settings
   const settings = {
     dots: true,
-    infinite: details?.length > 3 ? true : false,
+    // infinite: details?.length > 3 ? true : false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 1,
-    centerMode: true, // Center the slides
+    slidesToScroll: 2,
+    centerMode: false, // Center the slides
     beforeChange: (current, next) => setActiveIndex(next),
     rtl: true, // Enable RTL
     customPaging: (i) => (
@@ -68,23 +68,18 @@ const Courses = () => {
         breakpoint: 480, // Mobile screens
         settings: {
           slidesToShow: 1, // Show 1 slide on small screens
-          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 768, // Tablet screens
+        breakpoint: 900, // Tablet screens
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1,
-          centerMode: true, // Center for tablet as well
         },
       },
       {
-        breakpoint: 1024, // Desktop screens
+        breakpoint: 1224, // Desktop screens
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          centerMode: true, // Center for tablet as well
+          slidesToShow: 3,
         },
       },
       // {

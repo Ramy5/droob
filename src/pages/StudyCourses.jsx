@@ -60,7 +60,6 @@ const StudyCourses = () => {
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  console.log("🚀 ~ HeroSection ~ data:", data);
 
   useEffect(() => {
     Axios.get(`/landing/courses?page=${page}`)
