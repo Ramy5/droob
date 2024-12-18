@@ -13,11 +13,13 @@ const CardCourses = ({ name, desc, img, price, date, rate, id }) => {
       <img
         src={img}
         alt=""
-        className="rounded-t-xl h-[200px] w-full sm:h-[180px] object-contain"
+        className="rounded-t-xl h-[200px] w-full sm:h-[180px] object-cover "
       />
       <div className="flex flex-col gap-3 px-4 mt-4">
         <h1 className="mb-3 text-base font-bold sm:text-lg">{name}</h1>
-        <p className="text-[#616161] text-xs sm:text-sm mb-3">{desc}</p>
+        <p className="text-[#616161] text-xs sm:text-sm mb-3 h-[100px] overflow-hidden text-ellipsis ">
+          {desc}
+        </p>
         <div className="flex items-center gap-2 mb-3">
           <StarRating rate={rate} />
           <p className="text-[#616161] text-xs sm:text-sm">{rate} تقييم</p>
