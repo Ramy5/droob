@@ -86,12 +86,12 @@ const Pricing = () => {
 
       {/* Pricing Cards Grid */}
       {/* grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 items-center */}
-      <div dir="rtl" className="">
+      <div
+        dir="rtl"
+        className={`grid items-center gap-5  sm:grid-cols-2 lg:grid-cols-3 `}
+      >
         {plans.map((plan, index) => (
-          <div
-            key={index}
-            className={`grid items-center gap-5  sm:grid-cols-2 lg:grid-cols-3 `}
-          >
+          <div key={index}>
             <PricingCard
               most={plan.is_common ? "الأكثر شيوعا" : null}
               title={plan.name}

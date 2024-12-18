@@ -13,7 +13,7 @@ const CardCourses = ({ name, desc, img, price, date, rate, id }) => {
       <img
         src={img}
         alt=""
-        className="rounded-t-xl h-[200px] w-full sm:h-[180px]"
+        className="rounded-t-xl h-[200px] w-full sm:h-[180px] object-contain"
       />
       <div className="flex flex-col gap-3 px-4 mt-4">
         <h1 className="mb-3 text-base font-bold sm:text-lg">{name}</h1>
