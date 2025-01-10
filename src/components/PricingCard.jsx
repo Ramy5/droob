@@ -1,12 +1,60 @@
 import whiteArrow from "../assets/whiteArrow.png";
 import PropTypes from "prop-types";
 import CheckIcon from "@mui/icons-material/Check";
+import { Axios } from "../utils/apiHandler";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PricingCard = ({ most, title, semiTitle, pricing, desc }) => {
+  const [paymentIsLoading, setPaymentIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, []);
+
+  const handlePayment = async () => {
+    if (!user) {
+      return navigate("/login");
+    }
+
+    setPaymentIsLoading(true);
+    try {
+      const response = await Axios.post("/landing/charge", {
+        name: user.name,
+        amount: pricing,
+        email: user.email,
+        phone: user.phone,
+      });
+
+      const paymentUrl = response.data.data.url;
+
+      if (paymentUrl && paymentUrl.startsWith("http")) {
+        window.location.href = paymentUrl;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPaymentIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, []);
+
   return (
     <div
       className={`py-10 px-6 sm:px-10 bg-[#ffffff] relative ${
-        most ? "h-[630px]" : "h-[550px]"
+        most ? "h-[600px]" : "h-[550px]"
       }`}
     >
       {most && (
@@ -34,7 +82,11 @@ const PricingCard = ({ most, title, semiTitle, pricing, desc }) => {
           />
         </div>
         <hr className="text-[#DADADA] mb-4" />
-        <button className="flex gap-3 justify-self-end items-center bg-[#0055D2] py-2 sm:py-3 px-4 sm:px-6 text-white justify-center">
+        <button
+          onClick={handlePayment}
+          disabled={paymentIsLoading}
+          className="flex gap-3 justify-self-end items-center bg-[#0055D2] py-2 sm:py-3 px-4 sm:px-6 text-white justify-center disabled:cursor-not-allowed disabled:bg-blue-300"
+        >
           اشترك الان
           <img src={whiteArrow} alt="arrow" />
         </button>

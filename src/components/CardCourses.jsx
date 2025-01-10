@@ -8,7 +8,7 @@ const CardCourses = ({ name, desc, img, price, date, rate, id }) => {
   return (
     <div
       dir="rtl"
-      className="flex flex-col justify-between bg-[#ffffff] w-[98%] my-8 shadow-md rounded-xl min-h-[580px]"
+      className="flex flex-col justify-between bg-[#ffffff] w-[98%] my-8 shadow-md rounded-xl"
     >
       <img
         src={img}
@@ -16,9 +16,11 @@ const CardCourses = ({ name, desc, img, price, date, rate, id }) => {
         className="rounded-t-xl h-[200px] w-full sm:h-[180px] object-cover "
       />
       <div className="flex flex-col gap-3 px-4 mt-4">
-        <h1 className="mb-3 text-base font-bold sm:text-lg">{name}</h1>
-        <p className="text-[#616161] text-xs sm:text-sm mb-3 h-[100px] overflow-hidden text-ellipsis ">
-          {desc}
+        <h1 className="mb-3 text-base font-bold sm:text-lg">
+          {name.slice(0, 30)}...
+        </h1>
+        <p className="text-[#616161] text-ellipsis text-xs sm:text-sm mb-3 h-[70px] overflow-hidden">
+          {desc.slice(0, 100)}...
         </p>
         <div className="flex items-center gap-2 mb-3">
           <StarRating rate={rate} />

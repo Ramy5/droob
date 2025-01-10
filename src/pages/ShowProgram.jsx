@@ -7,77 +7,56 @@ import { RiVideoAddFill } from "react-icons/ri";
 import { IoIosCheckbox, IoMdPerson } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { Axios } from "../utils/apiHandler";
-import { useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 
 const ShowProgram = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [paymentIsLoading, setPaymentIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, []);
+
+  const handlePayment = async () => {
+    if (!user) {
+      return navigate("/login");
+    }
+
+    setPaymentIsLoading(true);
+    try {
+      const response = await Axios.post("/landing/charge", {
+        name: user.name,
+        amount: data.price,
+        email: user.email,
+        phone: user.phone,
+      });
+
+      const paymentUrl = response.data.data.url;
+
+      if (paymentUrl && paymentUrl.startsWith("http")) {
+        window.location.href = paymentUrl;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPaymentIsLoading(false);
+    }
+  };
 
   const handleWhatsappRedirect = () => {
     const phoneNumber = "+966544492820";
     const url = `https://wa.me/${phoneNumber.replace(/^\+/, "")}`;
     window.open(url, "_blank");
   };
-
-  const questions = [
-    {
-      id: 1,
-      question: "المستوى الأول : أساسيات تطوير الويب",
-      answer:
-        "من المهم الاعتناء بالمريض، وأن يتبعه المريض، لكن ذلك سيحدث في وقت يكون فيه الكثير من العمل والألم.",
-    },
-    {
-      id: 2,
-      question: "المستوى الثاني : بناء هياكل وتنسيقات المواقع",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-    {
-      id: 3,
-      question: "المستوى الثالث : تطوير مواقع ديناميكية",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-    {
-      id: 4,
-      question: "المستوى الرابع : إتقان React.js وأدوات المطورين",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-    {
-      id: 5,
-      question: "مستوى الخامس : مشاريع عملية وتطبيقات واقعية",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-  ];
-
-  const questions2 = [
-    {
-      id: 1,
-      question: "لمن تناسب هذه الدورة؟",
-      answer:
-        "من المهم الاعتناء بالمريض، وأن يتبعه المريض، لكن ذلك سيحدث في وقت يكون فيه الكثير من العمل والألم.",
-    },
-    {
-      id: 2,
-      question: "هل أحتاج إلى أي خبرة مسبقة للالتحاق بالدورة؟",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-    {
-      id: 3,
-      question: "هل أحصل على شهادة بعد إتمام الدورة؟",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-    {
-      id: 4,
-      question: "كيف يمكنني الدفع؟",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-    {
-      id: 5,
-      question: "ماذا لو واجهتني مشكلة أثناء التعلم؟",
-      answer: "من المهم الاعتناء بالمريض، وأن يتبعه المريض...",
-    },
-  ];
 
   useEffect(() => {
     Axios.get(`/landing/course/${id}`)
@@ -143,8 +122,9 @@ const ShowProgram = () => {
           </div>
 
           <button
-            onClick={handleWhatsappRedirect}
-            className="w-full py-3 mt-6 font-semibold text-white transition bg-blue-600 rounded-lg hover:bg-blue-700"
+            onClick={handlePayment}
+            disabled={paymentIsLoading}
+            className="w-full py-3 mt-6 font-semibold text-white transition bg-blue-600 rounded-lg disabled:cursor-not-allowed disabled:bg-blue-300 hover:bg-blue-700"
           >
             اشترك الآن
           </button>
@@ -153,11 +133,18 @@ const ShowProgram = () => {
         <div className="col-span-2">
           <div className="w-full rounded-lg">
             <div className="rounded-lg">
-              <img
-                src={data?.image}
-                alt="Course Video"
-                className="object-cover w-full max-h-[28rem]"
-              />
+              {data?.url && (
+                <iframe
+                  src={`https://www.youtube.com/embed/${
+                    data?.url.split("v=")[1].split("&")[0]
+                  }?list=${data?.url.split("list=")[1]}`}
+                  className="w-full aspect-video max-h-[28rem] rounded-lg"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  sandbox="allow-same-origin allow-scripts allow-forms"
+                ></iframe>
+              )}
             </div>
 
             {/* Course Information */}

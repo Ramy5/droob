@@ -375,7 +375,7 @@ const HeroSection = () => {
         </div>
       </nav>
 
-      <div className="flex flex-col justify-start gap-12 px-8 text-white md:justify-between headHeight md:flex-row-reverse md:px-20">
+      <div className="flex flex-col gap-12 px-8 text-white justify-evenly headHeight md:flex-row-reverse md:px-20">
         <div className="flex flex-col items-end mt-16 mb-8 md:pt-32 lg:mb-0 ">
           {/* <h1>{data?.head}</h1> */}
           <h1 className="mb-4 text-xl font-bold text-right lg:text-3xl ">

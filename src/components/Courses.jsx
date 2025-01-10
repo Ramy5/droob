@@ -47,7 +47,6 @@ const Courses = () => {
     // infinite: details?.length > 3 ? true : false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 2,
     centerMode: false, // Center the slides
     beforeChange: (current, next) => setActiveIndex(next),
     rtl: true, // Enable RTL

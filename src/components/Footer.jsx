@@ -152,7 +152,9 @@ const Footer = () => {
             </div>
             <div className="flex gap-2 mb-4 text-sm">
               <EmailIcon />
-              <p>{data.email}</p>
+              <a href={`mailto:${data.email}`} target="_blank">
+                {data.email}
+              </a>
             </div>
             <div className="flex gap-2 mb-4 text-sm">
               <ContactsIcon />
@@ -160,10 +162,19 @@ const Footer = () => {
             </div>
             <div className="relative flex items-center gap-2">
               <p>تابعنا:</p>
-              <LinkedInIcon />
-              <InstagramIcon />
-              <TwitterIcon />
-              <FacebookIcon />
+              <a href={data.linkedIn} target="_blank">
+                <LinkedInIcon />
+              </a>
+              <a href={data.facebook} target="_blank">
+                <FacebookIcon />
+              </a>
+              <a href={data.instagram} target="_blank">
+                <InstagramIcon />
+              </a>
+              <a href={data.twitter} target="_blank">
+                {" "}
+                <TwitterIcon />
+              </a>
             </div>
           </div>
         </div>
