@@ -11,13 +11,6 @@ const PricingCard = ({ most, title, semiTitle, pricing, desc }) => {
 
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
-    }
-  }, []);
-
   const handlePayment = async () => {
     if (!user) {
       return navigate("/login");

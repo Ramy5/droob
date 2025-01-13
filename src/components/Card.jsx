@@ -1,8 +1,47 @@
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Axios } from "../utils/apiHandler";
 
 const Card = ({ icon, name, desc, button, img, price, date, id }) => {
-  const nav = useNavigate();
+  const [paymentIsLoading, setPaymentIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  const handlePayment = async () => {
+    if (!user) {
+      return navigate("/login");
+    }
+
+    setPaymentIsLoading(true);
+    try {
+      const response = await Axios.post("/landing/charge", {
+        name: user.name,
+        amount: price,
+        email: user.email,
+        phone: user.phone,
+      });
+
+      const paymentUrl = response.data.data.url;
+
+      if (paymentUrl && paymentUrl.startsWith("http")) {
+        window.location.href = paymentUrl;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPaymentIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, []);
+
   return (
     <div className="flex flex-col justify-between items-center bg-white border border-gray-200 rounded-lg shadow-md mb-6 w-[320px]">
       {/* Image */}
@@ -31,11 +70,15 @@ const Card = ({ icon, name, desc, button, img, price, date, id }) => {
 
         {/* Buttons */}
         <div className="flex items-center justify-between gap-2">
-          <button className="bg-white border border-[#0055D2] font-semibold text-[#0055D2] px-4 py-2 rounded flex-1">
+          <button
+            onClick={handlePayment}
+            disabled={paymentIsLoading}
+            className="bg-white border disabled:cursor-not-allowed disabled:bg-blue-300 border-[#0055D2] font-semibold text-[#0055D2] px-4 py-2 rounded flex-1"
+          >
             التسجيل
           </button>
           <button
-            onClick={() => nav(`/showProgram/${id}`)}
+            onClick={() => navigate(`/showProgram/${id}`)}
             className="bg-[#0055D2] text-white px-4 py-2 rounded flex-1"
           >
             {button}
