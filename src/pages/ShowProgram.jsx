@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Axios } from "../utils/apiHandler";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
+import ReactPlayer from "react-player";
 
 const ShowProgram = () => {
   const { id } = useParams();
@@ -71,7 +72,7 @@ const ShowProgram = () => {
 
   return (
     <div data-aos="fade-up" dir="rtl" className="">
-      <HeaderImage img={showProgram} title="دورة تطوير تطبيقات الهاتف  " />
+      <HeaderImage img={showProgram} title={data?.name} />
       <div className="grid items-start gap-8 px-8 my-8 md:my-24 xl:grid-cols-3 md:px-28">
         <div className="col-span-2 p-6 bg-white rounded-lg shadow-lg xl:col-span-1">
           <h2 className="mb-4 text-xl">تفاصيل الكورس</h2>
@@ -134,16 +135,7 @@ const ShowProgram = () => {
           <div className="w-full rounded-lg">
             <div className="rounded-lg">
               {data?.url && (
-                <iframe
-                  src={`https://www.youtube.com/embed/${
-                    data?.url.split("v=")[1].split("&")[0]
-                  }?list=${data?.url.split("list=")[1]}`}
-                  className="w-full aspect-video max-h-[28rem] rounded-lg"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  sandbox="allow-same-origin allow-scripts allow-forms"
-                ></iframe>
+                <ReactPlayer url={data?.url} controls width="100%" />
               )}
             </div>
 

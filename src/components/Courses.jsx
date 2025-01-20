@@ -128,7 +128,7 @@ const Courses = () => {
           onClick={() => nav("/study-courses")}
           className="bg-[#0055D2] p-2 px-6 rounded-3xl text-white"
         >
-          عرض جميع الكورسات
+          عرض جميع الدورات التدريبية
         </button>
       </div>
     </div>
