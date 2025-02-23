@@ -75,7 +75,7 @@ const Card = ({ icon, name, desc, button, img, price, date, id }) => {
             disabled={paymentIsLoading}
             className="bg-white border disabled:cursor-not-allowed disabled:bg-blue-300 border-[#0055D2] font-semibold text-[#0055D2] px-4 py-2 rounded flex-1"
           >
-            التسجيل
+            احجز الان
           </button>
           <button
             onClick={() => navigate(`/showProgram/${id}`)}

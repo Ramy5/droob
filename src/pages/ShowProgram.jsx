@@ -1,6 +1,6 @@
 import FAQs2 from "../components/FAQs2";
 import img from "../assets/test.png";
-import showProgram from "../assets/showProgramBG.png";
+import showProgramImg from "../assets/showProgramBG.png";
 import HeaderImage from "../components/HeaderImage";
 import { LuBarChart } from "react-icons/lu";
 import { RiVideoAddFill } from "react-icons/ri";
@@ -10,10 +10,11 @@ import { Axios } from "../utils/apiHandler";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import ReactPlayer from "react-player";
+import { DateRange, Timeline, Timer, TimeToLeave } from "@mui/icons-material";
 
 const ShowProgram = () => {
   const { id } = useParams();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [paymentIsLoading, setPaymentIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const ShowProgram = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    scrollTo(0, 0);
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
@@ -63,7 +65,7 @@ const ShowProgram = () => {
     Axios.get(`/landing/course/${id}`)
       .then((res) => {
         const apiData = res.data.data;
-        setData(apiData);
+        setData(apiData || {});
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -72,10 +74,10 @@ const ShowProgram = () => {
 
   return (
     <div data-aos="fade-up" dir="rtl" className="">
-      <HeaderImage img={showProgram} title={data?.name} />
+      <HeaderImage img={showProgramImg} title={data?.name} subTitle="" />
       <div className="grid items-start gap-8 px-8 my-8 md:my-24 xl:grid-cols-3 md:px-28">
         <div className="col-span-2 p-6 bg-white rounded-lg shadow-lg xl:col-span-1">
-          <h2 className="mb-4 text-xl">تفاصيل الكورس</h2>
+          <h2 className="mb-4 text-xl">تفاصيل البرنامج التدريبي</h2>
           <p
             dangerouslySetInnerHTML={{ __html: data?.desc }}
             className="mb-6 leading-relaxed text-gray-700"
@@ -92,6 +94,35 @@ const ShowProgram = () => {
               <span className="text-gray-700">{data?.number_of_evels}</span>
             </div>
             <div className="flex items-center gap-2">
+              <LuBarChart className="text-2xl text-[#0055D2]" />
+              <span className="font-semibold text-gray-700">
+                مستوي البرنامج التدريبي:
+              </span>
+              <span className="text-gray-700">{data?.level}</span>
+            </div>
+            <div className="space-x-2">
+              <DateRange className="text-2xl ml-2 text-[#0055D2]" />
+              <span className="font-semibold text-gray-700">التاريخ</span>
+              <ul className="grid grid-cols-2 pt-2 pr-6">
+                {Array.isArray(data?.dates) ? (
+                  data.dates.map((item, i) => <li key={i}>{item.date}</li>)
+                ) : (
+                  <li>No Dates Available</li>
+                )}
+              </ul>
+            </div>
+            <div className="">
+              <Timer className="text-2xl text-[#0055D2]" />
+              <span className="mr-2 font-semibold text-gray-700">الوقت</span>
+              <ul className="grid grid-cols-2 pt-2 pr-6">
+                {Array.isArray(data?.times) ? (
+                  data.times.map((item, i) => <li key={i}>{item.time}</li>)
+                ) : (
+                  <li>No Times Available</li>
+                )}
+              </ul>
+            </div>
+            <div className="flex items-center gap-2">
               <RiVideoAddFill className="text-2xl text-[#0055D2]" />
               <span className="font-semibold text-gray-700">عدد الحصص:</span>
               <span className="text-gray-700">
@@ -101,7 +132,9 @@ const ShowProgram = () => {
             <div className="flex items-center gap-2">
               <IoMdPerson className="text-2xl text-[#0055D2]" />
               <span className="font-semibold text-gray-700">المدرب:</span>
-              <span className="text-gray-700">{data?.lecturer?.name}</span>
+              <span className="text-gray-700">
+                {data?.lecturer?.name || ""}
+              </span>
             </div>
           </div>
 
@@ -110,15 +143,47 @@ const ShowProgram = () => {
           <div className="mt-6 space-y-4">
             <div className="flex items-center gap-2">
               <IoIosCheckbox className="text-2xl text-[#0055D2]" />
-              <span className="text-gray-700">حصص مباشرة</span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-700">نوع البرنامج التدريبي:</span>
+                <span className="text-gray-700">{data?.type}</span>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <IoIosCheckbox className="text-2xl text-[#0055D2]" />
-              <span className="text-gray-700">مشاريع عملية</span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-700">مكان الانعقاد:</span>
+                <span className="text-gray-700">{data?.venue}</span>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <IoIosCheckbox className="text-2xl text-[#0055D2]" />
-              <span className="text-gray-700">شهادة تخرج</span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-700">مدة البرنامج التدريبي:</span>
+                <span className="text-gray-700">{data?.duration}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <IoIosCheckbox className="text-2xl text-[#0055D2]" />
+              <div className="flex items-center gap-2">
+                <span className="text-gray-700">
+                  رقم اعتماد البرنامج التدريبي:
+                </span>
+                <span className="text-gray-700">{data?.number}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <IoIosCheckbox className="text-2xl text-[#0055D2]" />
+              <div className="flex items-center gap-2">
+                <span className="text-gray-700">حصص مباشرة:</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <IoIosCheckbox className="text-2xl text-[#0055D2]" />
+              <span className="text-gray-700">مشاريع عملية:</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <IoIosCheckbox className="text-2xl text-[#0055D2]" />
+              <span className="text-gray-700">شهادة تخرج:</span>
             </div>
           </div>
 
@@ -127,7 +192,7 @@ const ShowProgram = () => {
             disabled={paymentIsLoading}
             className="w-full py-3 mt-6 font-semibold text-white transition bg-blue-600 rounded-lg disabled:cursor-not-allowed disabled:bg-blue-300 hover:bg-blue-700"
           >
-            اشترك الآن
+            احجز الان{" "}
           </button>
         </div>
 
@@ -142,7 +207,7 @@ const ShowProgram = () => {
             {/* Course Information */}
             <div className="mt-8">
               <h2 className="mb-8 text-2xl font-semibold text-gray-800">
-                تعرف على الكورس
+                تعرف على البرنامج التدريبي
               </h2>
 
               <div
@@ -206,7 +271,7 @@ const ShowProgram = () => {
 
           <div className="p-4 my-8">
             <h2 className="mb-4 text-lg font-semibold text-gray-800">
-              المدرب لهذا الكورس
+              المدرب لهذا البرنامج التدريبي
             </h2>
             <div className="flex items-center">
               {/* Instructor Image Placeholder */}

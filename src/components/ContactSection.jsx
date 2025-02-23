@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import textIcon from "../assets/support and communication/text-icon.png";
 import pinIcon from "../assets/support and communication/pin-icon.png";
 import phoneIcon from "../assets/support and communication/phone-icon.png";
 import emailIcon from "../assets/support and communication/email-icon.png";
 import formIcon from "../assets/support and communication/form-icon.png";
 import whatsappIcon from "../assets/support and communication/whatsapp-icon.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Axios } from "../utils/apiHandler";
 
 const ContactSection = () => {
   const nav = useNavigate();
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    Axios("/landing/footer").then((res) => {
+      setData(res.data.data.item);
+    });
+  }, []);
+
   return (
-    <div className="bg-white p-5 md:p-20">
+    <div className="p-5 bg-white md:p-20">
       <div className="flex flex-col md:flex-row justify-between items-center gap-10 p-5 md:p-16 bg-[#EDF4FF]">
-        <div className="flex flex-col flex-1 border border-white rounded-lg bg-white">
+        <div className="flex flex-col flex-1 bg-white border border-white rounded-lg">
           {/* first Column */}
           <div className="flex flex-col gap-2 p-8 text-right">
             <h3 className="text-lg font-bold text-[#0055D2] hover:underline cursor-pointer ">
@@ -21,12 +30,12 @@ const ContactSection = () => {
 
             <div className="flex items-center gap-5 ">
               <img src={textIcon} alt="" />
-              <p className="text-black mb-2">
+              <p className="mb-2 text-black">
                 يمكننا مساعدتكم من خلال المحادثة الفورية{" "}
               </p>
             </div>
 
-            <p className="text-black font-bold">
+            <p className="font-bold text-black">
               من السبت الى الخميس من الساعة ٩ ص حتى ٥ مساءً
             </p>
           </div>
@@ -39,12 +48,12 @@ const ContactSection = () => {
 
             <div className="flex items-center gap-5 ">
               <img src={pinIcon} alt="" />
-              <p className="text-black mb-2">
+              <p className="mb-2 text-black">
                 الرياض-حي البديعة طريق المدينة المنورة، ظهرة البديعة، الرياض
                 12784هد
               </p>
             </div>
-            <p className="text-black font-bold">
+            <p className="font-bold text-black">
               من السبت الى الخميس من الساعة ٩ ص حتى ٥ مساءً
             </p>
           </div>
@@ -59,20 +68,22 @@ const ContactSection = () => {
             </h3>
             <div className="flex items-center gap-5 ">
               <img src={phoneIcon} alt="" />
-              <p className="text-black">+9660900-78601 </p>
+              <p className="text-black" dir="ltr">
+                {data?.phone}
+              </p>
             </div>
 
-            <p className="text-black font-bold">
+            <p className="font-bold text-black">
               الوقت المتوقع للرد اقل من دقيقة
             </p>
           </div>
         </div>
 
         <div className="flex flex-col flex-[2] gap-10">
-          <div className="flex flex-col md:flex-row items-center gap-10 ">
+          <div className="flex flex-col items-center gap-10 md:flex-row ">
             {/* fourth Column */}
-            <div className="flex-1 flex flex-col items-center text-center border rounded-lg bg-white p-8 md:p-20">
-              <div className="text-blue-600 text-4xl mb-4">
+            <div className="flex flex-col items-center flex-1 p-8 text-center bg-white border rounded-lg md:p-20">
+              <div className="mb-4 text-4xl text-blue-600">
                 {/* Icon for email communication */}
                 <img className="cursor-pointer" src={emailIcon} alt="" />
                 {/* Use a suitable icon from FontAwesome */}
@@ -80,16 +91,16 @@ const ContactSection = () => {
               <h3 className="text-lg font-bold text-[#0055D2] hover:underline cursor-pointer mb-3">
                 البريد الإلكتروني
               </h3>
-              <p className="text-gray-600 mb-2 font-extrabold text-lg">
-                futuredroop@gmail.com
+              <p className="mb-2 text-lg font-extrabold text-gray-600">
+                {data?.email}
               </p>
               <p className="text-black">
                 من السبت الى الخميس من الساعة ٩ ص حتى ٥ مساءً
               </p>
             </div>
             {/* fifth Column */}
-            <div className="flex-1 flex flex-col items-center text-center border rounded-lg bg-white py-8 px-24 md:p-20">
-              <div className="text-blue-600 text-4xl mb-4">
+            <div className="flex flex-col items-center flex-1 px-24 py-8 text-center bg-white border rounded-lg md:p-20">
+              <div className="mb-4 text-4xl text-blue-600">
                 {/* Icon for form communication */}
                 <img
                   className="cursor-pointer"
@@ -109,7 +120,7 @@ const ContactSection = () => {
               >
                 تواصل معنا
               </h3>
-              <p className="text-gray-600 mb-2 font-extrabold text-lg">
+              <p className="mb-2 text-lg font-extrabold text-gray-600">
                 من خلال الفورم
               </p>
               <p className="text-black">طوال ايام الاسبوع، خدمة ٢٤ ساعة</p>
@@ -117,21 +128,32 @@ const ContactSection = () => {
           </div>
 
           {/* sixth Column */}
-          <div className="flex flex-col items-center text-center border rounded-lg bg-white p-7">
-            <div className="text-blue-600 text-4xl mb-4">
-              {/* Icon for WhatsApp communication */}
-              <img className="cursor-pointer" src={whatsappIcon} alt="" />
-              {/* Use a suitable icon from FontAwesome */}
+          <div className="grid gap-10 md:grid-cols-2">
+            <div className="flex flex-col items-center text-center bg-white border rounded-lg p-7">
+              <div className="mb-4 text-4xl text-blue-600">
+                {/* Icon for WhatsApp communication */}
+                <img className="cursor-pointer" src={whatsappIcon} alt="" />
+                {/* Use a suitable icon from FontAwesome */}
+              </div>
+              <h3 className="text-lg font-bold text-[#0055D2] hover:underline cursor-pointer mb-3">
+                تواصل عبر الواتساب
+              </h3>
+              <p className="mb-2 text-lg font-extrabold text-gray-600">
+                whatsappme.link
+              </p>
+              <p className="text-black">
+                من السبت الى الخميس من الساعة ٩ ص حتى ٥ مساءً
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-[#0055D2] hover:underline cursor-pointer mb-3">
-              تواصل عبر الواتساب
-            </h3>
-            <p className="text-gray-600 mb-2 font-extrabold text-lg">
-              whatsappme.link
-            </p>
-            <p className="text-black">
-              من السبت الى الخميس من الساعة ٩ ص حتى ٥ مساءً
-            </p>
+            <Link
+              to={"/facility-training"}
+              className="flex flex-col items-center justify-center gap-4 text-center bg-white border rounded-lg p-7"
+            >
+              <img className="cursor-pointer" src={formIcon} alt="form" />
+              <h3 className="text-lg font-bold text-[#0055D2] hover:underline cursor-pointer mb-3">
+                تدريب المنشئات
+              </h3>
+            </Link>
           </div>
         </div>
       </div>

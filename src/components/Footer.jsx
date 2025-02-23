@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Axios } from "../utils/apiHandler.js";
 import { useEffect, useState } from "react";
 import Aos from "aos";
+import { BsSnapchat, BsTiktok, BsYoutube } from "react-icons/bs";
 const Footer = () => {
   const [data, setData] = useState({});
   const scrollWindow = () => {
@@ -21,11 +22,9 @@ const Footer = () => {
     });
   };
   useEffect(() => {
-    Axios.get("https://droob.medicalvisionarabia.com/api/landing/footer").then(
-      (res) => {
-        setData(res.data.data.item);
-      }
-    );
+    Axios.get("/landing/footer").then((res) => {
+      setData(res.data.data.item);
+    });
   }, []);
 
   useEffect(() => {
@@ -56,25 +55,25 @@ const Footer = () => {
       >
         <div className="flex flex-col items-center gap-1 text-center">
           <h2 className="text-xl font-bold tracking-widest sm:text-2xl">
-            <sup>+</sup> 985{" "}
+            <sup>+</sup> {data?.students}
           </h2>
           <p className="text-sm">إجماليات الطلاب</p>
         </div>
         <div className="flex flex-col items-center gap-1 text-center">
           <h2 className="text-xl font-bold tracking-widest sm:text-2xl">
-            <sup>+</sup> 36{" "}
+            <sup>+</sup> {data?.member}
           </h2>
           <p className="text-sm">عضو مؤسسة</p>
         </div>
         <div className="flex flex-col items-center gap-1 text-center">
           <h2 className="text-xl font-bold tracking-widest sm:text-2xl">
-            <sup>+</sup> 500{" "}
+            <sup>+</sup> {data?.courses}
           </h2>
           <p className="text-sm">دورة تدريبية</p>
         </div>
         <div className="flex flex-col items-center gap-1 text-center">
           <h2 className="text-xl font-bold tracking-widest sm:text-2xl">
-            <sup>+</sup> 35{" "}
+            <sup>+</sup> {data?.thatcher}
           </h2>
           <p className="text-sm">مدرب</p>
         </div>
@@ -148,7 +147,7 @@ const Footer = () => {
             <h1 className="mb-5 text-xl">تواصل معنا</h1>
             <div className="flex gap-2 mb-4 text-sm">
               <img src={footer3} />
-              <p className="text-nowrap">المملكة العربية السعودية، الطائف</p>
+              <p className="text-nowrap">{data.address}</p>
             </div>
             <div className="flex gap-2 mb-4 text-sm">
               <EmailIcon />
@@ -158,9 +157,9 @@ const Footer = () => {
             </div>
             <div className="flex gap-2 mb-4 text-sm">
               <ContactsIcon />
-              <p>{data.phone}</p>
+              <p dir="ltr">{data.phone}</p>
             </div>
-            <div className="relative flex items-center gap-2">
+            <div className="relative flex items-center gap-3">
               <p>تابعنا:</p>
               <a href={data.linkedIn} target="_blank">
                 <LinkedInIcon />
@@ -174,6 +173,17 @@ const Footer = () => {
               <a href={data.twitter} target="_blank">
                 {" "}
                 <TwitterIcon />
+              </a>
+              <a href={data.tiktok} target="_blank">
+                {" "}
+                <BsTiktok />
+              </a>
+              <a href={data.YouTube} target="_blank">
+                <BsYoutube />
+              </a>
+              <a href={data.snapchat} target="_blank">
+                {" "}
+                <BsSnapchat />
               </a>
             </div>
           </div>

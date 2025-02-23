@@ -80,8 +80,7 @@ const PricingCard = ({ most, title, semiTitle, pricing, desc }) => {
           disabled={paymentIsLoading}
           className="flex gap-3 justify-self-end items-center bg-[#0055D2] py-2 sm:py-3 px-4 sm:px-6 text-white justify-center disabled:cursor-not-allowed disabled:bg-blue-300"
         >
-          اشترك الان
-          <img src={whiteArrow} alt="arrow" />
+          احجز الان <img src={whiteArrow} alt="arrow" />
         </button>
       </div>
     </div>

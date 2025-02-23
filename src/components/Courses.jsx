@@ -98,13 +98,9 @@ const Courses = () => {
     >
       <div className="text-center">
         <h1 className="mt-5 text-2xl font-bold sm:text-3xl">
-          {" "}
-          أحدث الدورات التدريبية{" "}
+          {data?.[0]?.head}
         </h1>
-        <p className="text-[#616161] text-sm mt-3">
-          نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات
-          المطابع ودور النشر. كان لوريم إيبسوم
-        </p>
+        <p className="text-[#616161] text-sm mt-3">{data?.[0]?.per}</p>
       </div>
 
       <Slider {...settings} className="mt-14">

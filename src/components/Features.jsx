@@ -7,16 +7,25 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Aos from "aos";
 import { Axios } from "../utils/apiHandler";
+import ReactPlayer from "react-player";
 
 const Features = () => {
   const nav = useNavigate();
   const [data, setData] = useState([]);
+  console.log("🚀 ~ Features ~ data:", data);
+  const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
-    Axios.get("/landing/about-us").then((res) => {
+    Axios.get("/landing/section").then((res) => {
+      const apiData = res.data.data.section;
+
+      setData(apiData);
+    });
+
+    Axios.get("/landing/video").then((res) => {
       const apiData = res.data.data;
 
-      console.log("🚀 ~ Axios.get ~ apiData:", apiData);
+      setVideoUrl(apiData?.video?.link);
     });
   }, []);
 
@@ -27,23 +36,17 @@ const Features = () => {
       className="py-20 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]"
     >
       <div>
-        <img src={videoBox} alt="video box" />
+        <div className="rounded-lg">
+          <ReactPlayer url={videoUrl} controls width="100%" />
+        </div>
       </div>
       <div className="flex flex-col w-full gap-10 mt-20 lg:flex-row">
         <div className="w-full lg:w-[50%] text-center lg:text-right">
           <h5 className="text-[#0055D2] text-xl font-bold mb-6">
             مدربين و مدرسين معتمدون
           </h5>
-          <h1 className="mb-4 text-2xl font-bold">
-            نقدم لك الدعم والمتابعة اللازمة للوصول معًا إلى أفضل النتائج.
-          </h1>
-          <p className="text-base text-[#616161] mb-4">
-             نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات
-            المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ
-            القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل
-            عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه
-            الأحرف. خمسة
-          </p>
+          <h1 className="mb-4 text-2xl font-bold">{data?.head}</h1>
+          <p className="text-base text-[#616161] mb-4">{data?.per}</p>
 
           <button
             onClick={() => nav("/who-we-are")}
@@ -56,10 +59,10 @@ const Features = () => {
 
         {/* Hide images on mobile screens */}
         <div className="w-full  lg:w-[50%]">
-          <img src={features2} alt="feature 2" className="" />
+          <img src={data?.image3} alt="feature 2" className="" />
           <div className="flex gap-5 mt-4 overflow-hidden ">
-            <img src={features4} alt="feature 4" className="w-[50%]" />
-            <img src={features3} alt="feature 3" className="w-[50%]" />
+            <img src={data?.image1} alt="feature 4" className="w-[50%] h-44" />
+            <img src={data?.image2} alt="feature 3" className="w-[50%] h-44" />
           </div>
         </div>
       </div>

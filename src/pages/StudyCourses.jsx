@@ -47,11 +47,7 @@ const StudyCourses = () => {
 
   return (
     <div data-aos="fade-up" dir="rtl" className="bg-[#F8FBFB]">
-      <HeaderImage
-        img={studying}
-        title="برامج الدبلوم"
-        subTitle="/ الدورات التدريبية"
-      />
+      <HeaderImage img={studying} title="برامج الدبلوم" />
 
       <div className="flex flex-col items-center justify-center gap-6 mt-20 md:mx-10">
         <h1 className="text-[#2C2C2C] text-4xl font-bold">

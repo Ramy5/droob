@@ -85,7 +85,7 @@ const CardCourses = ({ name, desc, img, price, date, rate, id }) => {
             disabled={paymentIsLoading}
             className="bg-white border  border-[#0055D2] disabled:cursor-not-allowed disabled:bg-blue-300 font-semibold text-[#0055D2] py-1 px-2 sm:py-2 rounded flex-1"
           >
-            التسجيل
+            احجز الان
           </button>
         </div>
       </div>

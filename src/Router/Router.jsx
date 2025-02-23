@@ -18,6 +18,7 @@ import AOS from "aos";
 import RegisterForm from "../pages/RegisterForm.jsx";
 import ForgetPassword from "../pages/ForgetPassword.jsx";
 import ShowProgram from "../pages/ShowProgram.jsx";
+import FacilityTraining from "../pages/FacilityTraining.jsx";
 
 AOS.init({
   disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
@@ -43,7 +44,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <Error />,
     children: [
       {
         index: true,
@@ -78,6 +78,10 @@ const router = createBrowserRouter([
         element: <ContactUs2 />,
       },
       {
+        path: "facility-training",
+        element: <FacilityTraining />,
+      },
+      {
         path: "blog",
         element: <Blog />,
       },
@@ -101,6 +105,7 @@ const router = createBrowserRouter([
         path: "forgetPassword",
         element: <ForgetPassword />,
       },
+      { path: "*", element: <Error /> },
     ],
   },
 ]);
